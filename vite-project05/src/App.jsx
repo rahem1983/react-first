@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 
 
 function App() {
@@ -6,6 +6,13 @@ function App() {
   const [numberAllowed, setNumberAllowed] = useState(false)
   const [charAllowed, setCharAllowed] = useState(false)
   const [password, setPassword] = useState("")
+  const passwordRef = useRef(null)
+
+  const copyPasswordToClipBoard = useCallback(() => {
+    passwordRef.current?.select()
+    window.navigator.clipboard.writeText(password)
+    }, [password]
+  )
 
   const passwordGenerator = useCallback(()=>{
     let pass = ""
@@ -14,7 +21,8 @@ function App() {
     if(charAllowed) str += "!@#$%^&*(){}[]"
 
     for (let i = 1; i <= length; i++) {
-      let char = Math.floor(Math.random * str.length + 1)
+      let char = Math.floor(Math.random() * str.length + 1)
+      console.log(char)
       pass += str.charAt(char)
     }
     setPassword(pass)
@@ -35,8 +43,9 @@ function App() {
             value={password} 
             className='outline-none w-full py-1 px-3' 
             placeholder='Password'
-            readOnly/>
-            <button className='outline-none bg-blue-700 text-white px-3 py-1 shrink-0'>copy</button>
+            readOnly
+            ref={passwordRef}/>
+            <button className='outline-none bg-blue-700 text-white px-3 py-1 shrink-0' onClick={copyPasswordToClipBoard}>copy</button>
          </div>
          <div className='flex text-sm gap-x-2'>
           <div className='flex items-center gap-x-1'>
@@ -55,7 +64,7 @@ function App() {
             defaultChecked={numberAllowed}
             id='numberInput'
             onChange={() => {
-              setCharAllowed((prev)=>!prev)
+              setNumberAllowed((prev)=>!prev)
             }}/><label htmlFor='numberInput'>Number</label>
             <input 
             type="checkbox"
