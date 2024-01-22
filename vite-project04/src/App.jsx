@@ -7,18 +7,16 @@ function App() {
   const [color, setColor] = useState("olive")
   function updateVariable() {
     setInterval(() => {
-      myVariable = Math.floor(Math.random() * 225);
-        setColor(myVariable)
-
-      // if (myVariable === 1){
-      //   setColor("red")
-      // }
-      // else if(myVariable === 2){
-      //   setColor("green")
-      // }
-      // else{
-      //   setColor("blue") 
-      // } // You can remove this line if you don't want to log the variable value
+      myVariable = Math.floor(Math.random() * 3) + 1;
+      if (myVariable === 1){
+        setColor("red")
+      }
+      else if(myVariable === 2){
+        setColor("green")
+      }
+      else{
+        setColor("blue")
+      } // You can remove this line if you don't want to log the variable value
     }, 1000);
     
   }
